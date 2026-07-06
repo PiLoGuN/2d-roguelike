@@ -1,31 +1,33 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-static sf::Vector2f GetDirVector(int dir) {
+using namespace sf;
+
+static Vector2f GetDirVector(int dir) {
 	if (dir == 0) {
-		return sf::Vector2f(0, 1);
+		return Vector2f(0, 1);
 	}
 	else if (dir == 1) {
-		return sf::Vector2f(-1, 0);
+		return Vector2f(-1, 0);
 	}
 	else if (dir == 2) {
-		return sf::Vector2f(0, -1);
+		return Vector2f(0, -1);
 	}
 	else {
-		return sf::Vector2f(1, 0);
+		return Vector2f(1, 0);
 	}
 }
 
 
 int main()	
 {
-	sf::RenderWindow window( sf::VideoMode( { 800, 800 } ), "I'm going to die making this!" );
+	RenderWindow window( VideoMode( { 800, 800 } ), "I'm going to die making this!" );
 
-	sf::CircleShape shape( 200.f );
+	CircleShape shape( 200.f );
 	shape.setPointCount(100);
-	shape.setFillColor( sf::Color::Green );
+	shape.setFillColor( Color::Green );
 
-	shape.setPosition(sf::Vector2f(0, 0));
+	shape.setPosition(Vector2f(0, 0));
 
 	int count = 0;
 	int dir = 3;
@@ -33,15 +35,15 @@ int main()
 
 	float speed = 600;	
 
-	sf::Clock clock;
+	Clock clock;
 
 	while ( window.isOpen() )
 	{
-		window.setSize(sf::Vector2u(800, 800));
+		window.setSize(Vector2u(800, 800));
 
 		while ( const std::optional event = window.pollEvent() )
 		{
-			if ( event->is<sf::Event::Closed>() )
+			if ( event->is<Event::Closed>() )
 				window.close();
 		}
 		if (dist > 400) {
