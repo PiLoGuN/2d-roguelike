@@ -1,5 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Base/GameObjectBase.cpp"
+#include "Components/Debug/DebugComp.cpp"
 
 using namespace sf;
 
@@ -36,6 +38,12 @@ int main()
 	float speed = 600;	
 
 	Clock clock;
+
+	GameObjectBase baseo = GameObjectBase();
+	baseo.componentCount = 1;
+	baseo.components = new ComponentBase*[1] { new DebugComp() };
+
+	baseo.Start();
 
 	while ( window.isOpen() )
 	{
