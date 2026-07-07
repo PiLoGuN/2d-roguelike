@@ -1,9 +1,27 @@
-#include "../Base/ComponentBase.h"
+#include "../Base/GameObjectComponent.h"
 #include <iostream>
 
-class DebugComp : public ComponentBase {
+class DebugComp : public GameObjectComponent {
 	public: 
 		void Start() override {
 			std::cout << "ALL THOSE LIMITS I WILL OVERRIDE";
+			std::cout << (GetOwner()->GetPosition().x) << ", " << (GetOwner()->GetPosition().y) << " Position" << std::endl;
+		}
+		/*DebugComp(GameObjectBase* owner) {
+			base.
+		}*/
+		//DebugComp(GameObjectBase* owner) : GameObjectComponent(owner) {};
+
+		void Update(float dTime) override {
+			if (Keyboard::isKeyPressed(Keyboard::Key::A)) {
+				GetOwner()->SetPosition(GetOwner()->GetPosition() + Vector2f(1, 0));
+				Blaze();
+			}
+		}
+
+		DebugComp(GameObjectBase* owner) : GameObjectComponent(owner) {};
+
+		void Blaze() {
+			std::cout << (GetOwner()->GetPosition().x) << ", " << (GetOwner()->GetPosition().y) << " Position" << std::endl;
 		}
 };

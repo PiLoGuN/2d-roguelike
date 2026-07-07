@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Base/GameObjectBase.cpp"
-#include "Components/Debug/DebugComp.cpp"
+#include "Components/Movement/BasicMovement.h"
 
 using namespace sf;
 
@@ -39,11 +39,13 @@ int main()
 
 	Clock clock;
 
-	GameObjectBase baseo = GameObjectBase();
-	baseo.componentCount = 1;
-	baseo.components = new ComponentBase*[1] { new DebugComp() };
+	GameObjectBase circle = GameObjectBase();
+	circle.SetPosition(Vector2f(2, 1));
+	circle.componentCount = 1;
+	//circle.components = new ComponentBase* [1] { new DebugComp(&circle) };
+	circle.components = new ComponentBase * [1] { new BasicMovement(&circle) };
 
-	baseo.Start();
+	circle.Start();
 
 	while ( window.isOpen() )
 	{
@@ -51,8 +53,16 @@ int main()
 
 		while ( const std::optional event = window.pollEvent() )
 		{
-			if ( event->is<Event::Closed>() )
+			if (event->is<Event::Closed>()) {
 				window.close();
+
+				for (size_t i = 0; i < circle.componentCount; i++)
+				{
+					delete circle.components[i];
+				}
+				delete circle.components;
+				return 0;
+			}
 		}
 		if (dist > 400) {
 			dist = 0;
@@ -64,9 +74,11 @@ int main()
 
 		float dt = clock.restart().asSeconds();
 
-		shape.setPosition(shape.getPosition() + GetDirVector(dir) * dt * speed);
+		//shape.setPosition(shape.getPosition() + GetDirVector(dir) * dt * speed);
 		count = 0;
 		dist += dt * speed;
+
+		circle.Update(dt);
 
 		//std::cout << dt << std::endl;
 
