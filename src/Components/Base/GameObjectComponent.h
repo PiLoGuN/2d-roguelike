@@ -10,6 +10,7 @@ class GameObjectComponent: public ComponentBase {
 		void Start() override {};
 		void Update(const float dTime) override {};
 
+		GameObjectComponent() { throw 2; }
 		GameObjectComponent(GameObjectBase* owner);
 	private:
 		GameObjectBase* _owner;

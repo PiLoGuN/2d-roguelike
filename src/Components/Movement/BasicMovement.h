@@ -15,5 +15,5 @@ class BasicMovement : public GameObjectComponent {
 		void Move(Vector2f movement);
 	private:
 		Vector2f _movementBase;
-		bool _dlp;
+		bool _dlp = false;
 };

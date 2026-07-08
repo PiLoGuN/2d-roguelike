@@ -12,7 +12,7 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp "src/Base/GameObjectBase.h" "src/Components/Base/ComponentBase.h" "src/Components/Debug/DebugComp.cpp" "src/Components/Base/ComponentBase.cpp" "src/Components/Base/GameObjectComponent.cpp" "src/Components/Movement/BasicMovement.h" "src/Components/Movement/BasicMovement.cpp")
+add_executable(main src/main.cpp "src/Base/GameObjectBase.h" "src/Components/Base/ComponentBase.h" "src/Components/Debug/DebugComp.cpp" "src/Components/Base/ComponentBase.cpp" "src/Components/Base/GameObjectComponent.cpp" "src/Components/Movement/BasicMovement.h" "src/Components/Movement/BasicMovement.cpp" "src/Components/Units/BaseUnit.h" "src/Components/Units/BaseUnit.cpp" "src/Components/Encounters/Encounter.h" "src/Components/Encounters/UnitHolder.h" "src/Components/Encounters/Encounter.cpp")
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)
 

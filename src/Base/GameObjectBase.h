@@ -7,15 +7,20 @@ using namespace sf;
 
 class GameObjectBase : public ComponentBase {
 	public:
-		GameObjectBase* GetParent() const;
+		//ComponentBase** components = NULL;
+		std::vector<ComponentBase*> components;
+
+		GameObjectBase* GetParent();
 		void SetParent(GameObjectBase* parent);
-		Vector2f GetPosition() const;
+
+		const Vector2f GetPosition();
 		void SetPosition(Vector2f position);
+		Vector2f GetGlobalPosition();
 
-		Vector2f GetGlobalPosition() const;
-
-		ComponentBase** components = NULL;
-		int componentCount = 0;
+		void AddComponent(ComponentBase* component);
+		void RemoveComponent(int id);
+		void RemoveComponent(ComponentBase* component);
+		const int GetComponentCount();
 
 		virtual void Start();
 		virtual void Update(float dTime);
@@ -23,7 +28,7 @@ class GameObjectBase : public ComponentBase {
 		GameObjectBase() = default;
 	private:
 		GameObjectBase* _parent = NULL;
+		int _componentCount = 0;
 
 		Vector2f _localPosition = Vector2f(0, 0);
-
 };

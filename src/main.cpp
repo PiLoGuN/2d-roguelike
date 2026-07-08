@@ -27,10 +27,7 @@ int main()
 
 	GameObjectBase circle = GameObjectBase();
 	circle.SetPosition(Vector2f(2, 1));
-	circle.componentCount = 1;
-	//circle.components = new ComponentBase* [1] { new DebugComp(&circle) };
-	circle.components = new ComponentBase* [1] { new BasicMovement(&circle) };
-	//circle.components = new ComponentBase* [2] { new DebugComp(&circle), new BasicMovement(&circle) };
+	circle.AddComponent(new BasicMovement(&circle));
 
 	((BasicMovement*)circle.components[0])->shapeToMove = &shape;
 
@@ -45,11 +42,7 @@ int main()
 			if (event->is<Event::Closed>()) {
 				window.close();
 
-				for (size_t i = 0; i < circle.componentCount; i++)
-				{
-					delete circle.components[i];
-				}
-				delete circle.components;
+				//delete[] circle.components;
 				return 0;
 			}
 		}

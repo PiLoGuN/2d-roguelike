@@ -1,6 +1,6 @@
 #include "GameObjectBase.h"
 
-GameObjectBase* GameObjectBase::GetParent() const {
+GameObjectBase* GameObjectBase::GetParent() {
 	return _parent;
 }
 void GameObjectBase::SetParent(GameObjectBase* parent) {
@@ -8,10 +8,10 @@ void GameObjectBase::SetParent(GameObjectBase* parent) {
 	_parent = parent;
 }
 
-Vector2f GameObjectBase::GetPosition() const {
+const Vector2f GameObjectBase::GetPosition() {
 	return _localPosition;
 }
-Vector2f GameObjectBase::GetGlobalPosition() const {
+Vector2f GameObjectBase::GetGlobalPosition() {
 	GameObjectBase* iterObject = this->GetParent();
 	Vector2f position = this->GetPosition();
 	while (iterObject != NULL) {
@@ -24,17 +24,38 @@ void GameObjectBase::SetPosition(Vector2f position) {
 	_localPosition = position;
 }
 
+void GameObjectBase::AddComponent(ComponentBase* component) {
+	components.push_back(component);
+	_componentCount++;
+	//std::cout << "ComponentCount " << _componentCount << std::endl;
+}
+void GameObjectBase::RemoveComponent(int id) {
+	components.erase(components.begin() + id);
+	_componentCount--;
+}
+void GameObjectBase::RemoveComponent(ComponentBase* component) {
+	for (size_t i = 0; i < _componentCount; i++){
+		if (components[i] != component)
+			continue;
+
+		components.erase(components.begin() + i);
+		return;
+	}
+	_componentCount--;
+}
+const int GameObjectBase::GetComponentCount() {
+	return _componentCount;
+}
+
 
 void GameObjectBase::Start() {
-	for (size_t i = 0; i < componentCount; i++)
-	{
+	for (size_t i = 0; i < GetComponentCount(); i++){
 		(*components[i]).Start();
 	}
 }
 
 void GameObjectBase::Update(const float dTime) {
-	for (size_t i = 0; i < componentCount; i++)
-	{
+	for (size_t i = 0; i < GetComponentCount(); i++){
 		(*components[i]).Update(dTime);
 	}
 }
