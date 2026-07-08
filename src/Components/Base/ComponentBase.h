@@ -7,7 +7,7 @@ class ComponentBase {
 		//GameObjectBase* GetOwner();
 
 		virtual void Start() {};
-		virtual void Update(float dTime) {};
+		virtual void Update(const float dTime) {};
 
 		//ComponentBase(GameObjectBase* owner);
 	//private:

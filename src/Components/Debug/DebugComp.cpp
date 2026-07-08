@@ -14,6 +14,7 @@ class DebugComp : public GameObjectComponent {
 
 		void Update(float dTime) override {
 			if (Keyboard::isKeyPressed(Keyboard::Key::A)) {
+				//I was debugging the basic movement script because of ts, burn in hell
 				GetOwner()->SetPosition(GetOwner()->GetPosition() + Vector2f(1, 0));
 				Blaze();
 			}

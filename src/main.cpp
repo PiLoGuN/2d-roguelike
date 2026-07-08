@@ -2,23 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include "Base/GameObjectBase.cpp"
 #include "Components/Movement/BasicMovement.h"
+#include "Components/Debug/DebugComp.cpp"
 
 using namespace sf;
-
-static Vector2f GetDirVector(int dir) {
-	if (dir == 0) {
-		return Vector2f(0, 1);
-	}
-	else if (dir == 1) {
-		return Vector2f(-1, 0);
-	}
-	else if (dir == 2) {
-		return Vector2f(0, -1);
-	}
-	else {
-		return Vector2f(1, 0);
-	}
-}
 
 
 int main()	
@@ -43,7 +29,10 @@ int main()
 	circle.SetPosition(Vector2f(2, 1));
 	circle.componentCount = 1;
 	//circle.components = new ComponentBase* [1] { new DebugComp(&circle) };
-	circle.components = new ComponentBase * [1] { new BasicMovement(&circle) };
+	circle.components = new ComponentBase* [1] { new BasicMovement(&circle) };
+	//circle.components = new ComponentBase* [2] { new DebugComp(&circle), new BasicMovement(&circle) };
+
+	((BasicMovement*)circle.components[0])->shapeToMove = &shape;
 
 	circle.Start();
 

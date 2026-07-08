@@ -32,7 +32,7 @@ void GameObjectBase::Start() {
 	}
 }
 
-void GameObjectBase::Update(float dTime) {
+void GameObjectBase::Update(const float dTime) {
 	for (size_t i = 0; i < componentCount; i++)
 	{
 		(*components[i]).Update(dTime);

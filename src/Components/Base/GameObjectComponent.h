@@ -7,6 +7,9 @@ class GameObjectComponent: public ComponentBase {
 	public:
 		GameObjectBase* GetOwner();
 
+		void Start() override {};
+		void Update(const float dTime) override {};
+
 		GameObjectComponent(GameObjectBase* owner);
 	private:
 		GameObjectBase* _owner;
