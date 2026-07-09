@@ -20,10 +20,10 @@ class SpriteDrawerBasic : public GameObjectComponent {
 		void Update(const float dTime, const UpdateData* data) override;
 
 		OffsetScalePair position;
-		OffsetScalePair size;
+		Vector2f size;
 
 		SpriteDrawerBasic(GameObjectBase* owner, sf::Shape* shape);
-		SpriteDrawerBasic(GameObjectBase* owner, sf::Shape* shape, OffsetScalePair pos, OffsetScalePair size);
+		SpriteDrawerBasic(GameObjectBase* owner, sf::Shape* shape, OffsetScalePair pos, Vector2f size);
 	private:
 		sf::Shape* _shape;
 		

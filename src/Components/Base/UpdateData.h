@@ -3,5 +3,5 @@
 #include <SFML/Graphics.hpp>
 
 struct UpdateData {
-	sf::Window* window;
+	sf::RenderWindow* window;
 };

@@ -27,12 +27,13 @@ int main()
 	GameObjectBase encounter = GameObjectBase();
 
 	sf::CircleShape circ = CircleShape(100, 100);
+	sf::CircleShape circ2 = CircleShape(10, 20);
 
 	BasicMovement* move = new BasicMovement(&encounter);
 	move->shapeToMove = &circ;
 	encounter.AddComponent(move);
-	encounter.AddComponent(new SpriteDrawerBasic(&encounter, &circ, OffsetScalePair(Vector2f(0.1, 0.1), Vector2f(200, 200)), OffsetScalePair(Vector2f(0.1, 0.1), Vector2f(200, 200))));
-
+	encounter.AddComponent(new SpriteDrawerBasic(&encounter, &circ, OffsetScalePair(Vector2f(0, 0), Vector2f(200, 0)), Vector2f(1, 1) ));
+	encounter.AddComponent(new SpriteDrawerBasic(&encounter, &circ2, OffsetScalePair(Vector2f(0, 0), Vector2f(0, 0)), Vector2f(1, 1) ));
 
 
 	std::cout << "GUNFIRE!";
@@ -49,6 +50,7 @@ int main()
 				return 0;
 			}
 		}
+		window.clear();
 		float dt = clock.restart().asSeconds();
 
 		UpdateData data = UpdateData();
@@ -58,8 +60,6 @@ int main()
 		{
 			encounter.components[i]->Update(dt, &data);
 		}
-
-		window.clear();
 		window.display();
 	}
 }
