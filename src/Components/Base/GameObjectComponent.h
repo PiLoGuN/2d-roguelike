@@ -8,9 +8,10 @@ class GameObjectComponent: public ComponentBase {
 		GameObjectBase* GetOwner();
 
 		void Start() override {};
-		void Update(const float dTime) override {};
+		void Update(const float dTime, const UpdateData* data) override {};
 
-		GameObjectComponent() { throw 2; }
+		//GameObjectComponent() { throw 2; }
+		GameObjectComponent();
 		GameObjectComponent(GameObjectBase* owner);
 	private:
 		GameObjectBase* _owner;

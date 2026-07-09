@@ -17,7 +17,7 @@ static Vector2f GetDirVector(int dir) {
 }
 
 
-void BasicMovement::Update(const float dTime) {
+void BasicMovement::Update(const float dTime, const UpdateData* data) {
 
 	_movementBase = Vector2f(0, 0);
 
@@ -55,7 +55,7 @@ void BasicMovement::Update(const float dTime) {
 }
 
 void BasicMovement::Start() {
-	std::cout << shapeToMove->getRadius();
+	//std::cout << shapeToMove->getRadius();
 }
 
 void BasicMovement::Move(Vector2f movement) {

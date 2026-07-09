@@ -5,12 +5,12 @@
 class BasicMovement : public GameObjectComponent {
 	public:
 		float speed;
-		CircleShape* shapeToMove;
+		sf::Shape* shapeToMove;
 
 		BasicMovement(GameObjectBase* owner) : GameObjectComponent(owner), speed(1000), shapeToMove(NULL) {};
 
 		void Start() override;
-		void Update(const float dTime) override;
+		void Update(const float dTime, const UpdateData* data) override;
 
 		void Move(Vector2f movement);
 	private:

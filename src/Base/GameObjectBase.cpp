@@ -8,7 +8,7 @@ void GameObjectBase::SetParent(GameObjectBase* parent) {
 	_parent = parent;
 }
 
-const Vector2f GameObjectBase::GetPosition() {
+Vector2f GameObjectBase::GetPosition() const {
 	return _localPosition;
 }
 Vector2f GameObjectBase::GetGlobalPosition() {
@@ -43,7 +43,7 @@ void GameObjectBase::RemoveComponent(ComponentBase* component) {
 	}
 	_componentCount--;
 }
-const int GameObjectBase::GetComponentCount() {
+int GameObjectBase::GetComponentCount() const {
 	return _componentCount;
 }
 
@@ -54,9 +54,9 @@ void GameObjectBase::Start() {
 	}
 }
 
-void GameObjectBase::Update(const float dTime) {
+void GameObjectBase::Update(const float dTime, const UpdateData* data) {
 	for (size_t i = 0; i < GetComponentCount(); i++){
-		(*components[i]).Update(dTime);
+		(*components[i]).Update(dTime, data);
 	}
 }
 

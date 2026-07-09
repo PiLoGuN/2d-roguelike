@@ -13,17 +13,17 @@ class GameObjectBase : public ComponentBase {
 		GameObjectBase* GetParent();
 		void SetParent(GameObjectBase* parent);
 
-		const Vector2f GetPosition();
+		Vector2f GetPosition() const;
 		void SetPosition(Vector2f position);
 		Vector2f GetGlobalPosition();
 
 		void AddComponent(ComponentBase* component);
 		void RemoveComponent(int id);
 		void RemoveComponent(ComponentBase* component);
-		const int GetComponentCount();
+		int GetComponentCount() const;
 
 		virtual void Start();
-		virtual void Update(float dTime);
+		virtual void Update(const float dTime, const UpdateData* data);
 
 		GameObjectBase() = default;
 	private:

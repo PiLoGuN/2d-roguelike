@@ -4,8 +4,8 @@
 
 class Encounter : public GameObjectComponent {
 	public:
-		UnitHolder* GetHolders();
-		UnitHolder GetHolders(int id);
+		UnitHolder* GetHolders() const;
+		UnitHolder GetHolders(const int id) const;
 
 		using GameObjectComponent::GameObjectComponent;
 

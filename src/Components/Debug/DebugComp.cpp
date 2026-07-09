@@ -12,7 +12,7 @@ class DebugComp : public GameObjectComponent {
 		}*/
 		//DebugComp(GameObjectBase* owner) : GameObjectComponent(owner) {};
 
-		void Update(float dTime) override {
+		void Update(const float dTime, const UpdateData* data) override {
 			if (Keyboard::isKeyPressed(Keyboard::Key::A)) {
 				//I was debugging the basic movement script because of ts, burn in hell
 				GetOwner()->SetPosition(GetOwner()->GetPosition() + Vector2f(1, 0));
