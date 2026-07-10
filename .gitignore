@@ -4,4 +4,4 @@ out
 .idea
 .vs
 .vscode
-CMakeSettings.json
+/CMakeSettings.json
