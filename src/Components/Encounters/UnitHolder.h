@@ -5,5 +5,6 @@
 struct UnitHolder {
 	Vector2f holderPosition;
 
-	BaseUnit** units;
+	//std::vector<GameObjectBase&> units;
+	std::vector<std::shared_ptr<GameObjectBase>> units;
 };

@@ -5,14 +5,16 @@
 
 class GameObjectComponent: public ComponentBase {
 	public:
-		GameObjectBase* GetOwner();
+		std::shared_ptr<GameObjectBase> GetOwner();
 
 		void Start() override {};
-		void Update(const float dTime, const UpdateData* data) override {};
+		void Update(const float dTime, const UpdateData& data) override {};
+
+		virtual std::string GetName() override { return "BASE OBJECT"; };
 
 		//GameObjectComponent() { throw 2; }
 		GameObjectComponent();
-		GameObjectComponent(GameObjectBase* owner);
+		GameObjectComponent(GameObjectBase& owner);
 	private:
-		GameObjectBase* _owner;
+		std::shared_ptr<GameObjectBase> _owner;
 };

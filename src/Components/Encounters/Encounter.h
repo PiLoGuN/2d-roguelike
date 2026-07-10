@@ -4,13 +4,13 @@
 
 class Encounter : public GameObjectComponent {
 	public:
-		UnitHolder* GetHolders() const;
-		UnitHolder GetHolders(const int id) const;
+		std::vector<UnitHolder>& GetHolders();
+		UnitHolder& GetHolders(const int id);
 
-		using GameObjectComponent::GameObjectComponent;
+			using GameObjectComponent::GameObjectComponent;
 
-		Encounter(GameObjectBase* owner);
+		Encounter(GameObjectBase& owner);
 		~Encounter();
 	private:
-		UnitHolder* _holders;
+		std::vector<UnitHolder> _holders;
 };

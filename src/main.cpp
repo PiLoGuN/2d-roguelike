@@ -3,40 +3,41 @@
 #include "Base/GameObjectBase.cpp"
 #include "Components/Movement/BasicMovement.h"
 #include "Components/Drawer/SpriteDrawerBasic.h"
+#include "Components/Encounters/Encounter.h"
 
 using namespace sf;
 
 
 int main()	
 {
-	std::cout << "INVASION";
+	std::cout << "INVASION" << std::endl;
 
 	sf::RenderWindow window( VideoMode( { 1200, 800 } ), "I'm on the leader, the one with the crown", sf::Style::Close | sf::Style::Titlebar );
 
 	sf::Image icon;
 	if (!icon.loadFromFile("assets/Images/Base/iconReal.png")) {
-		std::cout << "Bad :(";
+		std::cout << "Bad :(" << std::endl;
 	}
 	else {
 		window.setIcon(icon);
-		std::cout << "Good :)";
+		std::cout << "Good :)" << std::endl;
 	}
 
 	Clock clock;
 
-	GameObjectBase encounter = GameObjectBase();
+	GameObjectBase encounter;
 
 	sf::CircleShape circ = CircleShape(100, 100);
 	sf::CircleShape circ2 = CircleShape(10, 20);
 
-	BasicMovement* move = new BasicMovement(&encounter);
-	move->shapeToMove = &circ;
-	encounter.AddComponent(move);
-	encounter.AddComponent(new SpriteDrawerBasic(&encounter, &circ, OffsetScalePair(Vector2f(0, 0), Vector2f(200, 0)), Vector2f(1, 1) ));
-	encounter.AddComponent(new SpriteDrawerBasic(&encounter, &circ2, OffsetScalePair(Vector2f(0, 0), Vector2f(0, 0)), Vector2f(1, 1) ));
+	//encounter.AddComponent(Encounter(encounter));
+	encounter.AddComponent(SpriteDrawerBasic(encounter, circ, OffsetScalePair(Vector2f(0.5, 0.25), Vector2f(-100, -100)), Vector2f(1,1)));
+	//encounter.AddComponent(SpriteDrawerBasic(encounter, circ2, OffsetScalePair(Vector2f(0.5, 0.75), Vector2f(-100, -100)), Vector2f(1, 1)));
+	//encounter.AddComponent(BasicMovement(encounter, circ));
 
+	std::cout << encounter.components[0]->GetName() << std::endl;
 
-	std::cout << "GUNFIRE!";
+	std::cout << "GUNFIRE!" << std::endl;
 
 	encounter.Start();
 
@@ -56,10 +57,16 @@ int main()
 		UpdateData data = UpdateData();
 		data.window = &window;
 
-		for (size_t i = 0; i < encounter.GetComponentCount(); i++)
+		encounter.Update(dt, data);
+		/*for (size_t i = 0; i < encounter.GetComponentCount(); i++)
 		{
-			encounter.components[i]->Update(dt, &data);
-		}
+			//std::cout << encounter.components[i]->GetName() << std::endl;
+			encounter.components[i]->Update(dt, data);
+		}*/
 		window.display();
 	}
+}
+
+void ChangeNPrint(GameObjectBase& object) {
+
 }

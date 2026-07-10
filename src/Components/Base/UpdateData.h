@@ -4,4 +4,6 @@
 
 struct UpdateData {
 	sf::RenderWindow* window;
+
+	UpdateData() = default;
 };

@@ -12,7 +12,7 @@ class DebugComp : public GameObjectComponent {
 		}*/
 		//DebugComp(GameObjectBase* owner) : GameObjectComponent(owner) {};
 
-		void Update(const float dTime, const UpdateData* data) override {
+		void Update(const float dTime, const UpdateData& data) override {
 			if (Keyboard::isKeyPressed(Keyboard::Key::A)) {
 				//I was debugging the basic movement script because of ts, burn in hell
 				GetOwner()->SetPosition(GetOwner()->GetPosition() + Vector2f(1, 0));
@@ -20,7 +20,7 @@ class DebugComp : public GameObjectComponent {
 			}
 		}
 
-		DebugComp(GameObjectBase* owner) : GameObjectComponent(owner) {};
+		DebugComp(GameObjectBase& owner) : GameObjectComponent(owner) {};
 
 		void Blaze() {
 			std::cout << (GetOwner()->GetPosition().x) << ", " << (GetOwner()->GetPosition().y) << " Position" << std::endl;
