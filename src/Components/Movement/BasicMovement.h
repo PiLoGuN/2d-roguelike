@@ -5,11 +5,11 @@
 class BasicMovement : public GameObjectComponent {
 	public:
 		float speed;
-		sf::Shape& shapeToMove;
+		std::shared_ptr<sf::Shape> shapeToMove;
 
-		BasicMovement(GameObjectBase& owner, sf::Shape& shape) : speed(1000), shapeToMove(shape) {};
+		BasicMovement(std::shared_ptr<GameObjectBase> owner, std::shared_ptr<sf::Shape> shape) : GameObjectComponent(owner), speed(1000), shapeToMove(shape) {};
 
-		using GameObjectComponent::GameObjectComponent;
+		//using GameObjectComponent::GameObjectComponent;
 
 		void Start() override;
 		void Update(const float dTime, const UpdateData& data) override;

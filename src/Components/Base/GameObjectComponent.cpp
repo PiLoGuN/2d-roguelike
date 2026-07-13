@@ -1,14 +1,17 @@
 #include "GameObjectComponent.h"
 //#include "../../Base/GameObjectBase.h"
 
-std::shared_ptr<GameObjectBase> GameObjectComponent::GetOwner() {
+GameObjectBase* GameObjectComponent::GetOwner() {
+	return _owner.get();
+}
+std::shared_ptr<GameObjectBase> GameObjectComponent::GetOwnerSmart() {
 	return _owner;
 }
 
 GameObjectComponent::GameObjectComponent() {
 	_owner = nullptr;
 }
-GameObjectComponent::GameObjectComponent(GameObjectBase& owner) {
-	_owner = std::make_shared<GameObjectBase>(owner);
-	std::cout << _owner;
+GameObjectComponent::GameObjectComponent(std::shared_ptr<GameObjectBase> owner) {
+	_owner = owner;
+	std::cout << _owner << std::endl;
 }

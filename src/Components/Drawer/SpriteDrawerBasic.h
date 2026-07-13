@@ -8,6 +8,11 @@ struct OffsetScalePair {
 
 	OffsetScalePair() = default;
 
+	OffsetScalePair(Vector2f scaleT) {
+		scale = scaleT;
+		offset = Vector2f(0,0);
+	}
+
 	OffsetScalePair(Vector2f scaleT, Vector2f offsetT) {
 		scale = scaleT;
 		offset = offsetT;
@@ -22,12 +27,12 @@ class SpriteDrawerBasic : public GameObjectComponent {
 		OffsetScalePair position;
 		Vector2f size = Vector2f(1,1);
 
-		SpriteDrawerBasic(GameObjectBase& owner, sf::Shape& shape);
-		SpriteDrawerBasic(GameObjectBase& owner, sf::Shape& shape, OffsetScalePair pos);
-		SpriteDrawerBasic(GameObjectBase& owner, sf::Shape& shape, OffsetScalePair pos, Vector2f size);
+		SpriteDrawerBasic(std::shared_ptr<GameObjectBase> owner, std::shared_ptr<sf::Shape> shape);
+		SpriteDrawerBasic(std::shared_ptr<GameObjectBase> owner, std::shared_ptr<sf::Shape> shape, OffsetScalePair pos);
+		SpriteDrawerBasic(std::shared_ptr<GameObjectBase> owner, std::shared_ptr<sf::Shape> shape, OffsetScalePair pos, Vector2f size);
 
 		virtual std::string GetName() override { return "DRAWER"; };
 	private:
-		sf::Shape& _shape;
+		std::shared_ptr<sf::Shape> _shape;
 		
 };

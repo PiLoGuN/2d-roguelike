@@ -20,7 +20,7 @@ class DebugComp : public GameObjectComponent {
 			}
 		}
 
-		DebugComp(GameObjectBase& owner) : GameObjectComponent(owner) {};
+		DebugComp(std::shared_ptr<GameObjectBase> owner) : GameObjectComponent(owner) {};
 
 		void Blaze() {
 			std::cout << (GetOwner()->GetPosition().x) << ", " << (GetOwner()->GetPosition().y) << " Position" << std::endl;

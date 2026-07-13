@@ -44,7 +44,7 @@ void BasicMovement::Update(const float dTime, const UpdateData& data) {
 
 		if (Keyboard::isKeyPressed(Keyboard::Key::B) && !_dlp) {
 			std::cout << _movementBase.x << " " << _movementBase.y << std::endl;
-			std::cout << shapeToMove.getPosition().x << " " << shapeToMove.getPosition().y << std::endl;
+			std::cout << shapeToMove->getPosition().x << " " << shapeToMove->getPosition().y << std::endl;
 		}
 		_dlp = Keyboard::isKeyPressed(Keyboard::Key::B);
 	}
@@ -61,7 +61,7 @@ void BasicMovement::Start() {
 void BasicMovement::Move(Vector2f movement) {
 	GetOwner()->SetPosition(GetOwner()->GetPosition() + movement);
 	Vector2f pos = GetOwner()->GetPosition();
-	shapeToMove.setPosition(pos);
+	shapeToMove->setPosition(pos);
 	//pos = shapeToMove->getPosition();
 	//std::cout << pos.x << ", " << pos.y << std::endl;
 }
