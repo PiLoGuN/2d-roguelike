@@ -26,10 +26,10 @@ class GameObjectBase : public ComponentBase {
 		std::shared_ptr<ComponentBase> GetComponent(int id);
 		int GetComponentCount() const;
 
-		virtual void Start();
+		virtual void Start(const UpdateData& data);
 		virtual void Update(const float dTime, const UpdateData& data);
 	private:
-		std::shared_ptr<GameObjectBase> _parent;
+		std::shared_ptr<GameObjectBase> _parent = nullptr;
 		std::vector<std::shared_ptr<ComponentBase>> _components;
 		//GameObjectBase _parent = NULL;
 		int _componentCount = 0;

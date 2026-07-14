@@ -12,7 +12,7 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(${PROJECT_NAME} src/main.cpp "src/Base/GameObjectBase.h" "src/Components/Base/ComponentBase.h" "src/Components/Debug/DebugComp.cpp" "src/Components/Base/ComponentBase.cpp" "src/Components/Base/GameObjectComponent.cpp" "src/Components/Movement/BasicMovement.h" "src/Components/Movement/BasicMovement.cpp" "src/Components/Units/BaseUnit.h" "src/Components/Units/BaseUnit.cpp" "src/Components/Encounters/Encounter.h" "src/Components/Encounters/UnitHolder.h" "src/Components/Encounters/Encounter.cpp" "src/Deprecated/mainDEP.cpp" "src/Components/Drawer/SpriteDrawerBasic.h" "src/Components/Drawer/SpriteDrawerBasic.cpp" "src/Components/Base/UpdateData.h")
+add_executable(${PROJECT_NAME} src/main.cpp "src/Base/GameObjectBase.h" "src/Components/Base/ComponentBase.h" "src/Components/Debug/DebugComp.cpp" "src/Components/Base/ComponentBase.cpp" "src/Components/Base/GameObjectComponent.cpp" "src/Components/Movement/BasicMovement.h" "src/Components/Movement/BasicMovement.cpp" "src/Components/Units/BaseUnit.h" "src/Components/Units/BaseUnit.cpp" "src/Components/Encounters/Encounter.h" "src/Components/Encounters/UnitHolder.h" "src/Components/Encounters/Encounter.cpp" "src/Deprecated/mainDEP.cpp" "src/Components/Drawer/SpriteDrawerBasic.h" "src/Components/Drawer/SpriteDrawerBasic.cpp" "src/Components/Base/UpdateData.h" "src/Components/Encounters/UnitHolder.cpp" "src/Base/GameObjectHolder.h" "src/Base/GameObjectHolder.cpp" "src/Components/Drawer/OffsetScalePair.h" "src/Components/Drawer/OffsetScalePair.cpp")
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${PROJECT_NAME} PRIVATE SFML::Graphics)
 

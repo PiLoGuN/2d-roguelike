@@ -1,23 +1,7 @@
 #pragma once
 
 #include "../Base/GameObjectComponent.h"
-
-struct OffsetScalePair {
-	Vector2f scale;
-	Vector2f offset;
-
-	OffsetScalePair() = default;
-
-	OffsetScalePair(Vector2f scaleT) {
-		scale = scaleT;
-		offset = Vector2f(0,0);
-	}
-
-	OffsetScalePair(Vector2f scaleT, Vector2f offsetT) {
-		scale = scaleT;
-		offset = offsetT;
-	}
-};
+#include "OffsetScalePair.h"
 
 class SpriteDrawerBasic : public GameObjectComponent {
 	public: 

@@ -2,15 +2,19 @@
 #include "../Drawer/SpriteDrawerBasic.h"
 
 std::vector<UnitHolder>& Encounter::GetHolders() {
-	return _holders;
+	return *_holders;
 }
 UnitHolder& Encounter::GetHolders(const int id) {
-	return _holders[id];
+	return (*_holders)[id];
 }
 
-Encounter::Encounter(std::shared_ptr<GameObjectBase> owner) : GameObjectComponent(owner) {
-	std::shared_ptr<RectangleShape> rectTop = std::make_shared<RectangleShape>(Vector2f(800, 200));
-	std::shared_ptr<RectangleShape> rectBot = std::make_shared<RectangleShape>(Vector2f(800, 200));
+const float HOLDER_WIDTH = 800;
+const float HOLDER_HEIGHT = 200;
+
+Encounter::Encounter(std::shared_ptr<GameObjectBase> owner, std::vector<UnitHolder>& holdersT) : GameObjectComponent(owner) {
+	_holders = std::make_unique<std::vector<UnitHolder>>(holdersT);
+	std::shared_ptr<RectangleShape> rectTop = std::make_shared<RectangleShape>(Vector2f(HOLDER_WIDTH, HOLDER_HEIGHT));
+	std::shared_ptr<RectangleShape> rectBot = std::make_shared<RectangleShape>(Vector2f(HOLDER_WIDTH, HOLDER_HEIGHT));
 	//std::shared_ptr<RectangleShape> rectDialog = std::make_shared<RectangleShape>(Vector2f(2000, 300));
 
 	rectTop->setOrigin(rectTop->getLocalBounds().getCenter());
@@ -30,6 +34,32 @@ Encounter::Encounter(std::shared_ptr<GameObjectBase> owner) : GameObjectComponen
 }
 Encounter::~Encounter() {
 	
+}
+
+void Encounter::Start(const UpdateData& data) {
+	for (size_t i = 0; i < _holders->size(); i++)
+	{
+		for (size_t y = 0; y < (*_holders)[i].units.size(); y++)
+		{
+			GameObjectBase& unit = *((*_holders)[i].units[y]);
+			unit.SetPosition(OffsetScalePair::ScaleToOffset(*data.window, Vector2f(0.5, 0.17)) );
+		}
+	}
+}
+
+void Encounter::Update(const float dTime, const UpdateData& data) {
+	for (size_t i = 0; i < _holders->size(); i++)
+	{
+		for (size_t y = 0; y < (*_holders)[i].units.size(); y++)
+		{
+			GameObjectBase& unit = *((*_holders)[i].units[y]);
+			unit.SetPosition(OffsetScalePair::ScaleToOffset(*data.window, Vector2f(0.5, 0.17)) + Vector2f(cos(data.time * 3), sin(data.time * 3)) * 30.0f);
+		}
+	}
+	//std::cout << "Yuu" << std::endl;
+	//std::cout << _holders->size() << std::endl;
+	//std::cout << (*_holders)[0].units.size() << std::endl;
+	//std::cout << (*_holders)[1].units.size() << std::endl;
 }
 
 

@@ -11,7 +11,7 @@ class BasicMovement : public GameObjectComponent {
 
 		//using GameObjectComponent::GameObjectComponent;
 
-		void Start() override;
+		void Start(const UpdateData& data) override;
 		void Update(const float dTime, const UpdateData& data) override;
 
 		std::string GetName() override { return "MOVEMENT"; };

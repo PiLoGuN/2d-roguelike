@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Base/GameObjectBase.cpp"
+#include "Base/GameObjectHolder.h"
 #include "Components/Movement/BasicMovement.h"
 #include "Components/Drawer/SpriteDrawerBasic.h"
 #include "Components/Encounters/Encounter.h"
@@ -10,8 +11,6 @@ using namespace sf;
 
 int main()	
 {
-	std::cout << "INVASION" << std::endl;
-
 	sf::RenderWindow window( VideoMode( { 1200, 800 } ), "I'm on the leader, the one with the crown", sf::Style::Close | sf::Style::Titlebar);
 
 	sf::Image icon;
@@ -25,21 +24,42 @@ int main()
 
 	Clock clock;
 
+	GameObjectHolder holder{};
+
 	std::shared_ptr<GameObjectBase> encounter = std::make_shared<GameObjectBase>();
 
-	sf::CircleShape circ = CircleShape(100, 100);
-	//sf::CircleShape circ2 = new CircleShape(100, 100);
+	std::shared_ptr<GameObjectBase> unit = std::make_shared<GameObjectBase>();
+	std::shared_ptr<BaseUnit> unitB = std::make_shared<BaseUnit>();
+	unitB->unitName = "Homuchmenok";
+	unit->AddComponent(unitB);
 
-	encounter->AddComponent(std::make_shared<Encounter>(encounter));
-	//encounter->AddComponent(std::make_shared<SpriteDrawerBasic>(encounter, circ, OffsetScalePair(Vector2f(0.5, 0.25), Vector2f(-100, -100)), Vector2f(1,1)));
-	//encounter->AddComponent(SpriteDrawerBasic(encounter, circ2, OffsetScalePair(Vector2f(0.5, 0.75), Vector2f(-100, -100)), Vector2f(1, 1)));
-	//encounter->AddComponent(std::make_shared<BasicMovement>(encounter, circ));
+	unit->SetParent(encounter);
 
-	//std::cout << encounter->components[0]->GetName() << std::endl;
+	std::shared_ptr<sf::RectangleShape> rect = std::make_shared<sf::RectangleShape>(Vector2f(50, 50));
+	rect->setOrigin(rect->getLocalBounds().getCenter());
+	unit->AddComponent(std::make_shared<SpriteDrawerBasic>(unit, rect));
+
+	std::vector<UnitHolder> holders = std::vector<UnitHolder>();
+	holders.push_back(UnitHolder());
+	holders.push_back(UnitHolder());
+
+	holders[0].units.push_back(unit);
+
+	encounter->AddComponent(std::make_shared<Encounter>(encounter, holders));
+
 
 	std::cout << "GUNFIRE!" << std::endl;
 
-	encounter->Start();
+	holder.AddObject(encounter);
+	holder.AddObject(unit);
+
+	UpdateData data = UpdateData();
+	data.window = &window;
+
+	//encounter->Start();
+	holder.Start(data);
+
+	float time = 0;
 
 	while ( window.isOpen() )
 	{
@@ -54,19 +74,11 @@ int main()
 		window.clear();
 		float dt = clock.restart().asSeconds();
 
-		UpdateData data = UpdateData();
-		data.window = &window;
+		data.time = time;
+		time += dt;
 
-		encounter->Update(dt, data);
-		/*for (size_t i = 0; i < encounter.GetComponentCount(); i++)
-		{
-			//std::cout << encounter.components[i]->GetName() << std::endl;
-			encounter.components[i]->Update(dt, data);
-		}*/
+		//encounter->Update(dt, data);
+		holder.Update(dt, data);
 		window.display();
 	}
 }
-
-/*void ChangeNPrint(GameObjectBase& object) {
-
-}*/

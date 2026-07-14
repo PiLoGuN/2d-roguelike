@@ -16,7 +16,7 @@ GameObjectBase* GameObjectBase::GetParent() {
 }
 void GameObjectBase::SetParent(std::shared_ptr<GameObjectBase> parent) {
 	_localPosition = this->GetGlobalPosition() - parent->GetGlobalPosition();
-	std::cout << parent.get() << std::endl;
+	std::cout << parent.get() << " NEW PARENT" << std::endl;
 	_parent = parent;
 }
 
@@ -66,18 +66,20 @@ int GameObjectBase::GetComponentCount() const {
 }
 
 
-void GameObjectBase::Start() {
+void GameObjectBase::Start(const UpdateData& data) {
 	std::cout << "Start's start" << std::endl;
 	for (size_t i = 0; i < GetComponentCount(); i++) {
 		std::cout << "Comp: ";
 		std::cout << _components[i] << std::endl;
-		_components[i]->Start();
+		_components[i]->Start(data);
 	}
 	std::cout << "Start's end" << std::endl;
 }
 
 void GameObjectBase::Update(const float dTime, const UpdateData& data) {
+	//std::cout << GetComponentCount() << std::endl;
 	for (size_t i = 0; i < GetComponentCount(); i++){
+		//std::cout << _components[i]->GetName() << std::endl;
 		_components[i]->Update(dTime, data);
 	}
 }

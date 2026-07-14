@@ -13,7 +13,7 @@ class GameObjectComponent: public ComponentBase {
 		//For some time i will really really need a smart pointer, might be redundant, but we'll see
 		std::shared_ptr<GameObjectBase> GetOwnerSmart();
 
-		void Start() override {};
+		void Start(const UpdateData& data) override {};
 		void Update(const float dTime, const UpdateData& data) override {};
 
 		virtual std::string GetName() override { return "BASE OBJECT"; };

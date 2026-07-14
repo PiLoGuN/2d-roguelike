@@ -4,7 +4,9 @@
 
 void SpriteDrawerBasic::Update(const float dTime, const UpdateData& data) {
 	Vector2u wSize = data.window->getSize();
-	Vector2f objectPos = GetOwner()->GetPosition();
+	//Vector2f objectPos = GetOwner()->GetPosition();
+	Vector2f objectPos = GetOwner()->GetGlobalPosition();
+	std::cout << objectPos.x << " " << GetOwner()->GetPosition().x << std::endl;
 	_shape->setPosition(Vector2f((wSize.x * position.scale.x) + position.offset.x + objectPos.x, (wSize.y * position.scale.y) + position.offset.y + objectPos.y));
 	_shape->setScale(Vector2f(size.x, size.y));
 
