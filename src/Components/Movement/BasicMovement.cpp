@@ -54,7 +54,7 @@ void BasicMovement::Update(const float dTime, const UpdateData& data) {
 	Move(_movementBase);
 }
 
-void BasicMovement::Start() {
+void BasicMovement::Start(const UpdateData& data) {
 	//std::cout << shapeToMove->getRadius();
 }
 

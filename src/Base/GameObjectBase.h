@@ -20,17 +20,18 @@ class GameObjectBase : public ComponentBase {
 		void SetPosition(Vector2f position);
 		Vector2f GetGlobalPosition();
 
-		void AddComponent(std::shared_ptr<ComponentBase> component);
+		void AddComponent(std::unique_ptr<ComponentBase> component);
 		void RemoveComponent(int id);
 		void RemoveComponent(ComponentBase* component);
-		std::shared_ptr<ComponentBase> GetComponent(int id);
+		ComponentBase& GetComponent(int id);
 		int GetComponentCount() const;
 
 		virtual void Start(const UpdateData& data);
 		virtual void Update(const float dTime, const UpdateData& data);
+		virtual void RenderUpdate(const float dTime, const UpdateData& data);
 	private:
 		std::shared_ptr<GameObjectBase> _parent = nullptr;
-		std::vector<std::shared_ptr<ComponentBase>> _components;
+		std::vector<std::unique_ptr<ComponentBase>> _components;
 		//GameObjectBase _parent = NULL;
 		int _componentCount = 0;
 

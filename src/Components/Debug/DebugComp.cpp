@@ -3,7 +3,7 @@
 
 class DebugComp : public GameObjectComponent {
 	public: 
-		void Start() override {
+		void Start(const UpdateData& data) override {
 			std::cout << "ALL THOSE LIMITS I WILL OVERRIDE";
 			std::cout << (GetOwner()->GetPosition().x) << ", " << (GetOwner()->GetPosition().y) << " Position" << std::endl;
 		}

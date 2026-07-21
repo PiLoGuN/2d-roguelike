@@ -2,13 +2,10 @@
 
 GameObjectBase::GameObjectBase() {
 	SetPosition(Vector2f(0,0));
-	std::cout << "ONE 0 0" << std::endl;
-	std::cout << GetPosition().x << " " << GetPosition().y << std::endl;
 }
 
 GameObjectBase::GameObjectBase(Vector2f pos) {
 	SetPosition(pos);
-	std::cout << "TWO" << pos.x << pos.y << std::endl;
 }
 
 GameObjectBase* GameObjectBase::GetParent() {
@@ -38,9 +35,8 @@ void GameObjectBase::SetPosition(Vector2f position) {
 }
 
 
-void GameObjectBase::AddComponent(std::shared_ptr<ComponentBase> component) {
-	std::cout << "START" << std::endl;
-	_components.push_back(component);
+void GameObjectBase::AddComponent(std::unique_ptr<ComponentBase> component) {
+	_components.push_back(std::move(component));
 	_componentCount++;
 }
 void GameObjectBase::RemoveComponent(int id) {
@@ -58,8 +54,8 @@ void GameObjectBase::RemoveComponent(ComponentBase* component) {
 	}
 	_componentCount--;
 }
-std::shared_ptr<ComponentBase> GameObjectBase::GetComponent(int id) {
-	return _components[id];
+ComponentBase& GameObjectBase::GetComponent(int id) {
+	return *(_components[id]).get();
 }
 int GameObjectBase::GetComponentCount() const {
 	return _componentCount;
@@ -67,13 +63,9 @@ int GameObjectBase::GetComponentCount() const {
 
 
 void GameObjectBase::Start(const UpdateData& data) {
-	std::cout << "Start's start" << std::endl;
 	for (size_t i = 0; i < GetComponentCount(); i++) {
-		std::cout << "Comp: ";
-		std::cout << _components[i] << std::endl;
 		_components[i]->Start(data);
 	}
-	std::cout << "Start's end" << std::endl;
 }
 
 void GameObjectBase::Update(const float dTime, const UpdateData& data) {
@@ -81,6 +73,12 @@ void GameObjectBase::Update(const float dTime, const UpdateData& data) {
 	for (size_t i = 0; i < GetComponentCount(); i++){
 		//std::cout << _components[i]->GetName() << std::endl;
 		_components[i]->Update(dTime, data);
+	}
+}
+
+void GameObjectBase::RenderUpdate(const float dTime, const UpdateData& data) {
+	for (size_t i = 0; i < GetComponentCount(); i++) {
+		_components[i]->RenderUpdate(dTime, data);
 	}
 }
 

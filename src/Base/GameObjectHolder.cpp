@@ -41,3 +41,10 @@ void GameObjectHolder::Update(const float dTime, const UpdateData& data) {
 		_objects[i]->Update(dTime, data);
 	}
 }
+
+void GameObjectHolder::RenderUpdate(const float dTime, const UpdateData& data) {
+	for (size_t i = 0; i < _objects.size(); i++)
+	{
+		_objects[i]->RenderUpdate(dTime, data);
+	}
+}

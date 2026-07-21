@@ -17,6 +17,7 @@ class GameObjectHolder {
 
 		void Start(const UpdateData& data);
 		void Update(const float dTime, const UpdateData& data);
+		void RenderUpdate(const float dTime, const UpdateData& data);
 	private:
 		std::vector<std::shared_ptr<GameObjectBase>> _objects;
 };

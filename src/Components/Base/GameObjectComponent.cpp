@@ -13,5 +13,4 @@ GameObjectComponent::GameObjectComponent() {
 }
 GameObjectComponent::GameObjectComponent(std::shared_ptr<GameObjectBase> owner) {
 	_owner = owner;
-	std::cout << _owner << std::endl;
 }
