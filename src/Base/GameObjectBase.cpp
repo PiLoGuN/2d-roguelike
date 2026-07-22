@@ -32,6 +32,11 @@ Vector2f GameObjectBase::GetGlobalPosition() {
 }
 void GameObjectBase::SetPosition(Vector2f position) {
 	_localPosition = position;
+
+	for (size_t i = 0; i < transformUpdated.size(); i++)
+	{
+		transformUpdated[i]();
+	}
 }
 
 

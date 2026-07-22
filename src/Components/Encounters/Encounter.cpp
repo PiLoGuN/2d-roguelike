@@ -1,5 +1,6 @@
 #include "Encounter.h"
-#include "../Drawer/SpriteDrawerBasic.h"
+//#include "../Drawer/SpriteDrawerBasic.h"
+#include "../Drawer/Drawers/RectangleBasicDrawer.h"
 
 std::vector<UnitHolder>& Encounter::GetHolders() {
 	return *_holders;
@@ -11,10 +12,17 @@ UnitHolder& Encounter::GetHolders(const int id) {
 const float HOLDER_WIDTH = 800;
 const float HOLDER_HEIGHT = 200;
 
-Encounter::Encounter(std::shared_ptr<GameObjectBase> owner, std::vector<UnitHolder>& holdersT) : GameObjectComponent(owner) {
+float lerp(float a, float b, float f)
+{
+	return a * (1.0f - f) + (b * f);
+}
+
+Encounter::Encounter(std::shared_ptr<GameObjectBase> owner, std::vector<UnitHolder>& holdersT, const UpdateData& data) : GameObjectComponent(owner) {
 	_holders = std::make_unique<std::vector<UnitHolder>>(holdersT);
 	std::unique_ptr<RectangleShape> rectTop = std::make_unique<RectangleShape>(Vector2f(HOLDER_WIDTH, HOLDER_HEIGHT));
 	std::unique_ptr<RectangleShape> rectBot = std::make_unique<RectangleShape>(Vector2f(HOLDER_WIDTH, HOLDER_HEIGHT));
+	//std::unique_ptr<RectangleShape> rectTop = std::make_unique<RectangleShape>();
+	//std::unique_ptr<RectangleShape> rectBot = std::make_unique<RectangleShape>();
 	//std::shared_ptr<RectangleShape> rectDialog = std::make_shared<RectangleShape>(Vector2f(2000, 300));
 
 	rectTop->setOrigin(rectTop->getLocalBounds().getCenter());
@@ -29,25 +37,49 @@ Encounter::Encounter(std::shared_ptr<GameObjectBase> owner, std::vector<UnitHold
 	rectTop->setOutlineColor(sf::Color(130, 130, 130));
 	rectBot->setOutlineColor(sf::Color(130, 130, 130));
 
-	owner->AddComponent(std::move(std::make_unique<SpriteDrawerBasic>(owner, std::move(rectTop), 0, OffsetScalePair(Vector2f(0.5, 0.17)))));
-	owner->AddComponent(std::move(std::make_unique<SpriteDrawerBasic>(owner, std::move(rectBot), 0, OffsetScalePair(Vector2f(0.5, 0.47)))));
+	(*_holders)[0].holderPosition = Vector2f(0.5, 0.17);
+	(*_holders)[1].holderPosition = Vector2f(0.5, 0.47);
+
+	Vector2f rectScale = OffsetScalePair::OffsetToScale(*data.window, Vector2f(HOLDER_WIDTH, HOLDER_HEIGHT));
+
+	//Vector2 rectScale = Vector2f(0.75, 0.175);
+
+	owner->AddComponent(std::move(std::make_unique<RectangleBasicDrawer>(owner, std::move(rectTop), data, 0, OffsetScalePair(Vector2f(0.5, 0.17)), OffsetScalePair(rectScale)) ));
+	owner->AddComponent(std::move(std::make_unique<RectangleBasicDrawer>(owner, std::move(rectBot), data, 0, OffsetScalePair(Vector2f(0.5, 0.47)), OffsetScalePair(rectScale)) ));
+
+	_window = data.window;
+	
+	_transformCallbackId = owner->transformUpdated.size();
+	owner->transformUpdated.push_back([this]() {
+		this->PositionHolderUnits();
+	});
 }
 Encounter::~Encounter() {
-	
+	GetOwner()->transformUpdated.erase(GetOwner()->transformUpdated.begin() + _transformCallbackId);
 }
 
-void Encounter::Start(const UpdateData& data) {
+void Encounter::PositionHolderUnits() {
+
+	std::cout << "YES i'AM" << std::endl;
+
+
 	for (size_t i = 0; i < _holders->size(); i++)
 	{
 		for (size_t y = 0; y < (*_holders)[i].units.size(); y++)
 		{
 			GameObjectBase& unit = *((*_holders)[i].units[y]);
-			//unit.SetPosition(OffsetScalePair::ScaleToOffset(*data.window, Vector2f(0.5 + y * 0.1, 0.17)) );
-			//unit.SetPosition(OffsetScalePair::ScaleToOffset(*data.window, (*_holders)[i].GetUnitPosition(y) * 0.85f) + Vector2f(25, 25));
-			unit.SetPosition(OffsetScalePair::ScaleToOffset(*data.window, (*_holders)[i].GetUnitPosition(y)));
-			std::cout << y << " " << (*_holders)[i].GetUnitPosition(y).x << " " << (*_holders)[i].GetUnitPosition(y).y << std::endl;
+
+			Vector2f position = (*_holders)[i].GetUnitPosition(y);
+			position = Vector2f(Vector2f(lerp(-HOLDER_WIDTH / 2, HOLDER_WIDTH / 2, position.x), lerp(-HOLDER_HEIGHT / 2, HOLDER_HEIGHT / 2, position.y)));
+			position.x += (*_holders)[i].holderPosition.x * _window->getSize().x;
+			position.y += (*_holders)[i].holderPosition.y * _window->getSize().y;
+			unit.SetPosition(position);
 		}
 	}
+}
+
+void Encounter::Start(const UpdateData& data) {
+	PositionHolderUnits();
 }
 
 void Encounter::Update(const float dTime, const UpdateData& data) {
@@ -60,10 +92,6 @@ void Encounter::Update(const float dTime, const UpdateData& data) {
 			//unit.SetPosition(OffsetScalePair::ScaleToOffset(*data.window, Vector2f(0.5 + y * 0.1, 0.17)) + Vector2f(cos(data.time * 3), sin(data.time * 3)) * 30.0f);
 		}
 	}
-	//std::cout << "Yuu" << std::endl;
-	//std::cout << _holders->size() << std::endl;
-	//std::cout << (*_holders)[0].units.size() << std::endl;
-	//std::cout << (*_holders)[1].units.size() << std::endl;
 }
 
 

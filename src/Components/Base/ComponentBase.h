@@ -1,9 +1,8 @@
 #pragma once
 
 //#include "../../Base/GameObjectBase.h"
-
-#include "UpdateData.h";
 #include <iostream>;
+#include "UpdateData.h";
 
 class ComponentBase {
 	public:

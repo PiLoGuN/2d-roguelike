@@ -29,6 +29,8 @@ class GameObjectBase : public ComponentBase {
 		virtual void Start(const UpdateData& data);
 		virtual void Update(const float dTime, const UpdateData& data);
 		virtual void RenderUpdate(const float dTime, const UpdateData& data);
+
+		std::vector<std::function<void()>> transformUpdated;
 	private:
 		std::shared_ptr<GameObjectBase> _parent = nullptr;
 		std::vector<std::unique_ptr<ComponentBase>> _components;

@@ -8,6 +8,13 @@ void RenderOrderer::Render(const float dTime, const UpdateData& data) {
 	}
 }
 
+void RenderOrderer::Resized() {
+	for (size_t i = 0; i < _renderingQueue.size(); i++)
+	{
+		_renderingQueue[i]->Resized();
+	}
+}
+
 void RenderOrderer::AddRenderer(SpriteDrawerBasic* renderer) {
 	if (_renderingQueue.size() <= 0) {
 		_renderingQueue.push_back(renderer);

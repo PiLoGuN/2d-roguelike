@@ -10,22 +10,28 @@ class SpriteDrawerBasic : public GameObjectComponent {
 		void Update(const float dTime, const UpdateData& data) override;
 		void RenderUpdate(const float dTime, const UpdateData& data) override;
 
+		virtual void Resized() = 0;
+
 		//Prohibits this object from rendering itself 
 		//bool customRendering;
 
 		int renderOrder = 0;
 
 		OffsetScalePair position;
-		Vector2f size = Vector2f(1,1);
+		OffsetScalePair size;
 
-		SpriteDrawerBasic(std::shared_ptr<GameObjectBase> owner, std::unique_ptr<sf::Shape> shape, int priority);
-		SpriteDrawerBasic(std::shared_ptr<GameObjectBase> owner, std::unique_ptr<sf::Shape> shape, int priority, OffsetScalePair pos);
-		SpriteDrawerBasic(std::shared_ptr<GameObjectBase> owner, std::unique_ptr<sf::Shape> shape, int priority, OffsetScalePair pos, Vector2f size);
+		SpriteDrawerBasic(std::shared_ptr<GameObjectBase> owner, std::unique_ptr<sf::Shape> shape, const UpdateData& data, int priority);
+		SpriteDrawerBasic(std::shared_ptr<GameObjectBase> owner, std::unique_ptr<sf::Shape> shape, const UpdateData& data, int priority, OffsetScalePair pos);
+		SpriteDrawerBasic(std::shared_ptr<GameObjectBase> owner, std::unique_ptr<sf::Shape> shape, const UpdateData& data, int priority, OffsetScalePair pos, OffsetScalePair size);
 
 		~SpriteDrawerBasic();
 
 
 		virtual std::string GetName() override { return "DRAWER"; };
-	private:
+	protected:
 		std::unique_ptr<sf::Shape> _shape;
+
+		int _transformCallbackId = -1;
+		//Window should ALWAYS outlive the renderers
+		sf::Window* _window;
 };

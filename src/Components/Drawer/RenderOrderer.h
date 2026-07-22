@@ -12,6 +12,7 @@ class RenderOrderer {
 		static RenderOrderer& GetRenderer();
 
 		void Render(const float dTime, const UpdateData& data);
+		void Resized();
 
 		void AddRenderer(SpriteDrawerBasic* renderer);
 		void RemoveRenderer(SpriteDrawerBasic* renderer);

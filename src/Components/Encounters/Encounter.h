@@ -14,8 +14,12 @@ class Encounter : public GameObjectComponent {
 		void Start(const UpdateData& data) override;
 		void Update(const float dTime, const UpdateData& data) override;
 
-		Encounter(std::shared_ptr<GameObjectBase> owner, std::vector<UnitHolder>& holders);
+		Encounter(std::shared_ptr<GameObjectBase> owner, std::vector<UnitHolder>& holders, const UpdateData& data);
 		~Encounter();
 	private:
 		std::shared_ptr<std::vector<UnitHolder>> _holders;
+		void PositionHolderUnits();
+
+		sf::Window* _window;
+		int _transformCallbackId = -1;
 };

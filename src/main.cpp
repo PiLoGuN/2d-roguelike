@@ -3,13 +3,14 @@
 #include "Base/GameObjectBase.cpp"
 #include "Base/GameObjectHolder.h"
 #include "Components/Movement/BasicMovement.h"
-#include "Components/Drawer/SpriteDrawerBasic.h"
+//#include "Components/Drawer/SpriteDrawerBasic.h"
+#include "Components/Drawer/Drawers/RectangleBasicDrawer.h"
 #include "Components/Encounters/Encounter.h"
 #include "Components/Drawer/RenderOrderer.h"
 
 using namespace sf;
 
-std::shared_ptr<GameObjectBase> createTestUnit(GameObjectHolder& holder, std::shared_ptr<GameObjectBase>& enc) {
+std::shared_ptr<GameObjectBase> createTestUnit(GameObjectHolder& holder, std::shared_ptr<GameObjectBase>& enc, const UpdateData& data) {
 	std::shared_ptr<GameObjectBase> unit = std::make_shared<GameObjectBase>();
 	std::unique_ptr<BaseUnit> unitB = std::make_unique<BaseUnit>();
 	unitB->unitName = "Homuchmenok";
@@ -20,7 +21,7 @@ std::shared_ptr<GameObjectBase> createTestUnit(GameObjectHolder& holder, std::sh
 	rect->setOrigin(rect->getLocalBounds().getCenter());
 	rect->setFillColor(sf::Color(163, 0, 0));
 
-	unit->AddComponent(std::move(std::make_unique<SpriteDrawerBasic>(unit, std::move(rect), 1)));
+	unit->AddComponent(std::move(std::make_unique<RectangleBasicDrawer>(unit, std::move(rect), data, 1, OffsetScalePair(), OffsetScalePair(Vector2f(0, 0), Vector2f(50, 50)))));
 
 	holder.AddObject(unit);
 
@@ -32,7 +33,11 @@ std::shared_ptr<GameObjectBase> createTestUnit(GameObjectHolder& holder, std::sh
 
 int main()	
 {
-	sf::RenderWindow window( VideoMode( { 1200, 800 } ), "I'm on the leader, the one with the crown", sf::Style::Close | sf::Style::Titlebar);
+	//sf::RenderWindow window( VideoMode( { 1200, 800 } ), "I'm on the leader, the one with the crown", sf::Style::Close | sf::Style::Titlebar);
+	float screenWidth = 1920.f;
+	float screenHeight = 1080.f;
+	//sf::RenderWindow window(VideoMode({ 1920, 1080 }), "I'm on the leader, the one with the crown", sf::Style::Fullscreen);
+	sf::RenderWindow window(VideoMode({ 1920, 1080 }), "I'm on the leader, the one with the crown", sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
 
 	window.setFramerateLimit(200);
 
@@ -47,6 +52,9 @@ int main()
 
 	Clock clock;
 
+	UpdateData data = UpdateData();
+	data.window = &window;
+
 	GameObjectHolder holder{};
 
 	std::shared_ptr<GameObjectBase> encounter = std::make_shared<GameObjectBase>();
@@ -55,25 +63,22 @@ int main()
 	holders.push_back(UnitHolder());
 	holders.push_back(UnitHolder());
 
-	holders[0].units.push_back(createTestUnit(holder, encounter));
-	holders[0].units.push_back(createTestUnit(holder, encounter));
-	holders[0].units.push_back(createTestUnit(holder, encounter));
-	holders[0].units.push_back(createTestUnit(holder, encounter));
-	holders[0].units.push_back(createTestUnit(holder, encounter));
-	holders[0].units.push_back(createTestUnit(holder, encounter));
-	holders[0].units.push_back(createTestUnit(holder, encounter));
-	holders[0].units.push_back(createTestUnit(holder, encounter));
-	holders[0].units.push_back(createTestUnit(holder, encounter));
-	holders[0].units.push_back(createTestUnit(holder, encounter));
+	holders[0].units.push_back(createTestUnit(holder, encounter, data));
+	holders[0].units.push_back(createTestUnit(holder, encounter, data));
+	holders[0].units.push_back(createTestUnit(holder, encounter, data));
+	holders[0].units.push_back(createTestUnit(holder, encounter, data));
+	holders[0].units.push_back(createTestUnit(holder, encounter, data));
+	holders[0].units.push_back(createTestUnit(holder, encounter, data));
+	holders[0].units.push_back(createTestUnit(holder, encounter, data));
+	holders[0].units.push_back(createTestUnit(holder, encounter, data));
+	holders[0].units.push_back(createTestUnit(holder, encounter, data));
+	holders[0].units.push_back(createTestUnit(holder, encounter, data));
 
-	encounter->AddComponent(std::move(std::make_unique<Encounter>(encounter, holders)));
+	encounter->AddComponent(std::move(std::make_unique<Encounter>(encounter, holders, data)));
 
 	std::cout << "GUNFIRE!" << std::endl;
 
 	holder.AddObject(encounter);
-
-	UpdateData data = UpdateData();
-	data.window = &window;
 
 	//encounter->Start();
 	holder.Start(data);
@@ -89,6 +94,35 @@ int main()
 
 				return 0;
 			}
+			if (event->is<sf::Event::Resized>()) {
+				//RenderOrderer::GetRenderer().Resized();
+				std::cout << "RESIZED" << std::endl;
+
+				if (const auto* resized = event->getIf<sf::Event::Resized>())
+				{
+					// update the view to the new size of the window
+					//sf::FloatRect visibleArea({ 0.f, 0.f }, sf::Vector2f(resized->size));
+					//window.setView(sf::View(visibleArea));
+
+					sf::Vector2u size = window.getSize();
+					float  heightRatio = screenHeight / screenWidth;
+					float  widthRatio = screenWidth / screenHeight;
+
+					if (size.y * widthRatio <= size.x)
+					{
+						size.x = size.y * widthRatio;
+					}
+					else if (size.x * heightRatio <= size.y)
+					{
+						size.y = size.x * heightRatio;
+					}
+
+					window.setSize(size);
+				}
+
+				//RenderOrderer::GetRenderer().Resized();
+			}
+
 		}
 		window.clear();
 		float dt = clock.restart().asSeconds();
